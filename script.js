@@ -5,6 +5,7 @@ function initialSetup() {
   createBoard()
   addMinesToBoard()
   addCountToBlocks()
+  // setEventListeners()
 }
 initialSetup()
 
@@ -17,6 +18,8 @@ function createBoard() {
     block.dataset.status = "hidden"
     block.dataset.index = i
     block.addEventListener("click", handleClick)
+    block.addEventListener("mouseup", handleMouseClick)
+    block.addEventListener("contextmenu", handleContextMenu)
     board.appendChild(block)
   }
 }
@@ -36,6 +39,25 @@ function addMinesToBoard() {
   }
 }
 
+function handleContextMenu(event) {
+  event.preventDefault()
+}
+
+function handleMouseClick(event) {
+  const buttonClicked = event.button
+  const block = event.target
+  const status = block.dataset.status
+  if (status !== "hidden") {
+    return
+  }
+  console.log(buttonClicked)
+  if (buttonClicked === 2) {
+    console.log("right click detected")
+    block.dataset.status = "marked"
+  }
+  return
+}
+
 function handleClick(event) {
   const block = event.target
   revealBlock(block)
@@ -50,6 +72,13 @@ function handleClick(event) {
     default:
       break
   }
+}
+
+function handleRightClick(event) {
+  console.log("right click detected")
+  event.preventDefault()
+  const block = event.target
+  block.dataset.status === "marked"
 }
 
 function showEntireBoard() {
